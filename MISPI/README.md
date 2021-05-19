@@ -222,6 +222,62 @@ git checkout <commit_hash> --file_name
 
 svn revert
 
+## .gitignore для вложенности
+
+[Дока](https://git-scm.com/docs/gitignore)
+
+Все вложенных файлов:
+
+- A leading " ** " followed by a slash means match in all directories. 
+For example, "**/foo" matches file or directory "foo" anywhere, the 
+same as pattern "foo". "**/foo/bar" matches file or directory "bar" 
+anywhere that is directly under directory "foo".
+- A trailing "/**" matches everything inside. 
+For example, "abc/**" matches all files inside directory 
+"abc", relative to the location of the .gitignore file, 
+with infinite depth.
+- A slash followed by two consecutive asterisks then a 
+  slash matches zero or more directories. For example, 
+  "a/**/b" matches "a/b", "a/x/b", "a/x/y/b" and so on.
+
+## Удалить не слитую ветку?
+
+[`git branch`](https://git-scm.com/docs/git-branch)
+
+- `-d` `--delete` :
+Delete a branch. The branch must be fully merged in its upstream branch, or in HEAD if no upstream was set with --track or --set-upstream-to.
+
+- `-D` :
+Shortcut for `--delete --force`.
+  
+- `-f` `--force` :
+Reset `<branchname>` to `<startpoint>`, even if `<branchname>` exists 
+already. Without `-f`, git branch refuses to change an existing branch. 
+In combination with `-d`, allow deleting the branch 
+irrespective of its merged status. In combination with `-m` (or `--move`), 
+allow renaming the branch even if the new branch name already exists, 
+the same applies for `-c` (or `--copy`).
+
+## Стратегии мержа (Git / SVN)
+
+[Git](https://www.simplilearn.com/tutorials/git-tutorial/merge-conflicts-in-git):
+1. The easiest way to resolve a conflicted file is to open it and make any necessary changes 
+2. After editing the file, we can use the git add a command to stage the new merged content 
+3. The final step is to create a new commit with the help of the git commit command
+4. Git will create a new merge commit to finalize the merge
+
+SVN:
+```
+svn resolve <список_файлов>
+svn commit
+```
+
+## Изменить состояние файлов на соответствующее какому-то коммиту
+
+1. Идём в `git log` ищем хэш, который мы хотим
+2. `git branch -b <новая_ветка> <Hash_который_хотим>`
+3. И ты откатишь все файлы
+
 
 # микроКР 1:
 
