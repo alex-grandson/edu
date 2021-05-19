@@ -218,6 +218,9 @@ _Пример_:
 
 ## Как откатить файл до определённой ревизии
 
+git checkout <commit_hash> --file_name
+
+svn revert
 
 
 # микроКР 1:
