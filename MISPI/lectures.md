@@ -364,8 +364,80 @@ Naming-конвенция GAV - groupId:artefact:version
 
 `41:30` : Дальнейшее развитие Ant+Ivy, Gradle
 
-Ivy тянет все зависимости из Maven для Ant
+Ivy - менеджер ависимоти для Ant. 
+Ivy тянет все зависимости из Maven2.
 
+Добавление в build.xml:
+```xml
+<project xmlns:ivy="antlib:org.apache.ivy.ant ... >"
+    <target name="resolve">
+        <ivy:retrieve>
+    </target>
+```
+Зависимости можно задать в файле ivy.xml:
+```xml
+<dependencies>
+    <dependency org="javax.servlet"
+                name="servlet-api"
+                rev="2.5" />
+</dependencies>
+```
+
+`43:43` : Чем не устраивает Ant и Maven? - XML
+
+Чем хорош XML? 
+- Легко проверяется корректность 
+- можно осуществлять трансформацию во что-нибудь другое
+
+`46:46` : Вторая проблема Ant и Maven - проприетарность.
+
+Они оба предназначены для сборки Java-проектов, а Gradle:
+- Нейтрален к языкам программирования
+- Базируется на Ant+Ivy (в слайдах опечатка)
+- Использует те же зависимости от Maven + может использовать его репозитории
+- Использует ЖЦ и плагины как Maven
+- DSL (Domain Specific Language) на Groovy в качестве скрипта сборки
+- Плагины существуют для большого количества проектов
+- Инкрементальная и параллельная сборки (есть почти везде)
+
+Пример build.gradle
+```groovy
+apply plugin: "java"
+apply plugin "application"
+
+mainClassName = "ru.ifmo.cs.Bcomp-NG"
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile "log4j:log4j-core:2.12.1
+}
+jar {
+    manifest.attributes("Main-Class": mainClassName);
+}
+```
+
+[Почитать про Gradle](https://habr.com/ru/post/225189/)
+
+`50^40` : Платформо-зависимые системы сборки (вне Java)
+
+- GNU autotools (C/C++), Cmake (C/C++), premake2 (lua)
+
+Генерируются make-файлы на основании:
+- Режимов работы программы
+- Заданной конфигурации
+- Операционной системы
+- Фактического наличия библиотек
+
+В чем отличие макроподстановки от компиляции программы с генерацией дерева?
+Макроподстановка берет код и на заданных правилах меняет
+одну последовательность символов на другую.
+
+Пользователю нужно знать 3 команды: `./configure`, `make`, `sudo make install`
+
+Тут неплохо бы было писать подробно процесс создания конфигурации проекта.
+56 минут. я умираю
 
 
 # [#6 Основы тестирования.](https://www.youtube.com/watch?v=_i2-oygZV7U&list=PLBWafxh1dFuykoWaAt7HiMOGgWXRvAN5V&index=6)
