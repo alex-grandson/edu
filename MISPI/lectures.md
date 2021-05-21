@@ -238,6 +238,10 @@ $(EXECUTABLE): $(OBJECTS)
 
 [Ant - быстрый старт. Habr](https://habr.com/ru/post/323204/)
 
+[Видео автора статьи](https://www.youtube.com/watch?v=FHkzQooUw1Q)
+
+[Хороший гайд для лабы с Ant](http://java-online.ru/blog-ant.xhtml)
+
 - Императивная система сборки
 - Управляется файлом build.xml
 
