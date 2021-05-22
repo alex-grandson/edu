@@ -13,5 +13,5 @@
     порядка деплоя
       
 Советы от Соника:
-- Почитать [UML 2. Unified process](https://picloud.pw/media/resources/posts/2018/02/20/UML_2_%D0%B8_%D1%83%D0%BD%D0%B8%D1%84%D0%B8%D1%86%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81.pdf) 
+- Почитать [UML 2. Unified process](books/UML_2_unified_process.pdf) 
   до 5 главы для понимания че ваще происходит
