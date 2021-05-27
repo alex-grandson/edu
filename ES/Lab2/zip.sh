@@ -1,1 +1,1 @@
-zip -r Kutsenko1.1_Lab2.zip main.cpp hal.sh
+zip -r Lab2.zip main.cpp
