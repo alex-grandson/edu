@@ -255,7 +255,11 @@ it('должно вернуть 1, когда передан массив с о�
 });
 ```
 
-**Stub** (заглушка)- обеспечивают жестко зашитый ответ на вызовы во время тестирования.
+
+## Stub и Mock: в чем разница
+
+
+**Stub** (заглушка) - обеспечивают жестко зашитый ответ на вызовы во время тестирования.
 Применяются для замены тех объектов, которые обеспечивают SUT (system uder test) входными данными. Также они могут сохранять в себе
 информацию о вызове (например параметры или количество этих вызовов) - такие иногда называют своим термином Test Spy.
 Такая "запись" позволяет оценить работу SUT, если состояние самого SUT не меняется.
@@ -265,6 +269,10 @@ it('должно вернуть 1, когда передан массив с о�
 проводятся через вызовы к Mock-объекту.
 
 ![stubAndMock.png](img/stubAndMock.png)
+
+С технической точки зрения это значит, что, используя стабы, мы проверяем состояние тестируемого класса или результат выполненного метода. При использовании мока мы проверяем, соответствуют ли ожидания мока поведению тестируемого класса. Также лучше использовать не более одного мока на тест. Иначе с высокой вероятностью вы нарушите принцип «тестировать только одну вещь». При этом, в одном тесте может быть сколько угодно стабов или же мок и стабы.
+
+[Статья](https://medium.com/@andr.ivas12/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B4%D0%BB%D1%8F-%D1%87%D0%B0%D0%B9%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2-c007d43da791)
 
 ## CI/CD
 
@@ -278,9 +286,59 @@ it('должно вернуть 1, когда передан массив с о�
 
 ## Jenkins
 
-## Stub и Mock: в чем разница
 
 ## Make Phony
+
+Let's assume you have install target, which is a very common in makefiles. If you do not use .PHONY, and a file named install exists in the same directory as the Makefile, then make install will do nothing. This is because Make interprets the rule to mean "execute such-and-such recipe to create the file named install". Since the file is already there, and its dependencies didn't change, nothing will be done.
+
+However if you make the install target PHONY, it will tell the make tool that the target is fictional, and that make should not expect it to create the actual file. Hence it will not check whether the install file exists, meaning: a) its behavior will not be altered if the file does exist and b) extra stat() will not be called.
+
+Generally all targets in your Makefile which do not produce an output file with the same name as the target name should be PHONY. This typically includes all, install, clean, distclean, and so on.
+
+Example
+
+In a directory 'test' following files are present:
+```
+prerit@vvdn105:~/test$ ls
+hello  hello.c  makefile
+```
+
+In makefile a rule is defined as follows:
+```
+hello:hello.c
+    cc hello.c -o hello
+```
+Now assume that file 'hello' is a text file containing some data, which was created after 'hello.c' file. So the modification (or creation) time-stamp of 'hello' will be newer than that of the 'hello.c'. So when we will invoke 'make hello' from command line, it will print as:
+```
+make: `hello' is up to date.
+```
+
+Now access the 'hello.c' file and put some white spaces in it, which doesn't affect the code syntax or logic then save and quit. Now the modification time-stamp of hello.c is newer than that of the 'hello'. Now if you invoke 'make hello', it will execute the commands as:
+```
+cc hello.c -o hello
+```
+And the file 'hello' (text file) will be overwritten with a new binary file 'hello' (result of above compilation command).
+
+If we use .PHONY in makefile as follow:
+```
+.PHONY:hello
+
+hello:hello.c
+    cc hello.c -o hello
+and then invoke 'make hello', it will ignore any file present in the pwd 'test' and execute the command every time.
+```
+
+Now suppose, that 'hello' target has no dependencies declared:
+
+```
+hello:
+    cc hello.c -o hello
+```
+
+and 'hello' file is already present in the pwd 'test', then 'make hello' will always show as:
+```
+make: `hello' is up to date.
+```
 
 ## Минусы Make
 
