@@ -42,6 +42,7 @@ src=./src -> Директория с Java исходниками
 main=${src}/main
 out=./out -> Директория с собранным проектом
 ```
+[Подробнее про проперти и отдельный файл](https://ant.apache.org/manual/Tasks/property.html
 
 Сборка проекта `build.xml`:
 
@@ -57,6 +58,29 @@ out=./out -> Директория с собранным проектом
     </manifest>
 </war>
 ```
+
+# Юзфул Ant таски и бэйсик юсадж
+
+Что-то стандартное:
+- [Echo](https://ant.apache.org/manual/Tasks/echo.html) - вывод сообщения
+- [Copy](https://ant.apache.org/manual/Tasks/copy.html) - простое копирование файла или ресурса в файл или директорию
+- [Exec](https://ant.apache.org/manual/Tasks/exec.html) - можно дать выполнить любую системную команду
+- [Delete](https://ant.apache.org/manual/Tasks/delete.html) - удаление чего-нибудь
+- [Mkdir](https://ant.apache.org/manual/Tasks/mkdir.html) - создать директорию
+- [Native2Ascii](https://ant.apache.org/manual/Tasks/native2ascii.html) - Converts files from native encodings to ASCII with escaped Unicode. A common usage is to convert source files maintained in a native operating system encoding, to ASCII prior to compilation.
+- [Zip](https://ant.apache.org/manual/Tasks/zip.html) - сжатие в архив
+
+Что-то антовое:
+- [AntCall](https://ant.apache.org/manual/Tasks/antcall.html) - вызвать другой таргет анта
+- [LoadProperties](https://ant.apache.org/manual/Tasks/loadproperties.html) - загрузить пропсы из файла
+- [Jar](https://ant.apache.org/manual/Tasks/jar.html) - непосредственно сборка в jar. **Стоит внимательно прочитать доку**
+- [War](https://ant.apache.org/manual/Tasks/war.html) - сборка веб приложения (по сути надстройка над jar)
+
+Что-то джавовое:
+- [Java](https://ant.apache.org/manual/Tasks/java.html) - запуск java приложения
+- [javac](https://ant.apache.org/manual/Tasks/javac.html) - непосредственно компиляция
+- [Javadoc](https://ant.apache.org/manual/Tasks/javadoc.html) - генерация документации проекта по javadoc'у
+- [javac]()
 
 # Примеры некоторых целей
 
@@ -363,15 +387,17 @@ make: `hello' is up to date.
 
 А даже вредно
 
-## Maven VS Ant VS Gradle
+## Ant VS Maven VS Gradle
 
 Если в Apache Ant нужно процедурно прописывать  
 
 | Apache Ant | Maven | Gradle |
 |:---|:---|:---|
-|➖ ant build быстро разрастается|||
-|legacy проекты на ant тяжело поддерживать из-за большого ant билда| | |
-| |➕| |
+|➖ ant build быстро разрастается| ➖  очень плохо кастомизируется (только свои плагины писать)||
+|➖ legacy проекты на ant тяжело поддерживать из-за большого ant билда| | |
+| ➖ XML |➖ XML | ➕  не XML |
+
+Под катом интелька билдится на анте
 
 [Видео](https://www.youtube.com/watch?v=YRUn2yd1iQk)
 
