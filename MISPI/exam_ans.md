@@ -322,6 +322,7 @@ Apache Ant представляет собой императивную сист
 Разрабатывалась для использования в Java-проектах. Файл состоит из target, в которых описана определенная
 последовательность действий для достижения поставленной цели. Пример простого build.xml.
 
+<myxml>
 <project name="MyProject" default="dist" basedir=".">
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -334,6 +335,7 @@ Apache Ant представляет собой императивную сист
     <javac srcdir="${src}" destdir="${build}"/>
   </target>
 </project>  
+<myxml>
 
 44. Системы сборки: Ant-ivy.
 Apache Ivy - транзитивный менеджер пакетов, который использутся совместно с Apache Ant.
@@ -341,26 +343,30 @@ Apache Ivy - транзитивный менеджер пакетов, кото�
 ivysetting.xml и ivy.xml.
 
 В головной build.xml подключиется при помощи:
+<myxml>
 <project name="MyProject" xmlns:ivy="antlib:org.apache.ivy.ant" default="dist" basedir=".">
     <target name="resolve">
         <ivy:retrieve/>
     </target>
+<myxml>
 
 Пример зависимости:
 
+<myxml>
 <ivy-module version="2.0">
 <info organisation="org.apache" module="hello-ivy"/>
 <dependencies>
     <dependency org="jakarta.annotation" name="jakarta.annotation-api" rev="1.3.5" />
 </dependencies>
 </ivy-module>
-
+<myxml>
 
 45. Системы сборки: Maven. POM. Репозитории и зависимости.
 Apache Maven - одна из самых популярных систем сборки для Java-проектов на 
 сегодняшний день. Использует декларативный подход. Основным файлом выступаем POM,
 (Project Object Model)(основной файл - pom.xml)
 
+<myxml>
 <project xmlns="http://maven.apache.org/POM/4.0.0"   
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0   
@@ -373,6 +379,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
 </project>  
 
+<myxml>
 В POM указываются имя, версия и тип программы, местоположение исходных кодов проекта
 зависимости, плагины, альтернативные конфигурации проекта
 
