@@ -318,9 +318,71 @@ all:
     gcc -o main main.c
     
 43. Системы сборки: Ant. Команды Ant.
+Apache Ant представляет собой императивную систему сборки, использующую в качестве основного файла build.xml.
+Разрабатывалась для использования в Java-проектах. Файл состоит из target, в которых описана определенная
+последовательность действий для достижения поставленной цели. Пример простого build.xml.
+
+<project name="MyProject" default="dist" basedir=".">
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${src}" destdir="${build}"/>
+  </target>
+</project>  
+
 44. Системы сборки: Ant-ivy.
+Apache Ivy - транзитивный менеджер пакетов, который использутся совместно с Apache Ant.
+Пакет скачивает из Maven-репозитория(определение см ниже). Для конфигурации использует файлы 
+ivysetting.xml и ivy.xml.
+
+В головной build.xml подключиется при помощи:
+<project name="MyProject" xmlns:ivy="antlib:org.apache.ivy.ant" default="dist" basedir=".">
+    <target name="resolve">
+        <ivy:retrieve/>
+    </target>
+
+Пример зависимости:
+
+<ivy-module version="2.0">
+<info organisation="org.apache" module="hello-ivy"/>
+<dependencies>
+    <dependency org="jakarta.annotation" name="jakarta.annotation-api" rev="1.3.5" />
+</dependencies>
+</ivy-module>
+
+
 45. Системы сборки: Maven. POM. Репозитории и зависимости.
+Apache Maven - одна из самых популярных систем сборки для Java-проектов на 
+сегодняшний день. Использует декларативный подход. Основным файлом выступаем POM,
+(Project Object Model)(основной файл - pom.xml)
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"   
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0   
+http://maven.apache.org/xsd/maven-4.0.0.xsd">  
+  
+  <modelVersion>4.0.0</modelVersion>  
+  <groupId>com.javatpoint.application1</groupId>  
+  <artifactId>my-app</artifactId>  
+  <version>1</version>  
+  
+</project>  
+
+В POM указываются имя, версия и тип программы, местоположение исходных кодов проекта
+зависимости, плагины, альтернативные конфигурации проекта
+
+Репозитории и зависимости.
+
+![](img/cycle.png)
+
 46. Maven: Структура проекта. GAV.
+
+
 47. Maven: Зависимости. Жизненный цикл сборки. Плагины.
 48. Системы сборки: Maven. POM. Репозитории и зависимости.
 49. Системы сборки: GNU autotools. Создание конфигурации проекта.
