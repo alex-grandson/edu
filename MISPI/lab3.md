@@ -47,7 +47,8 @@ out=./out -> Директория с собранным проектом
 Сборка проекта `build.xml`:
 
 ```xml
-<war destfile="${out}/${ant.project.name}.war" webxml="${main}/webapp/WEB-INF/web.xml">
+<war destfile="${out}/${ant.project.name}.war" 
+     webxml="${main}/webapp/WEB-INF/web.xml">
     <classes dir="${classes}"/>
     <lib dir="${lib}"/>
     <fileset dir="${main}/webapp/"/>
@@ -200,7 +201,9 @@ testName=DataTest
 
 **music** - воспроизведение музыки по завершению сборки (цель build).
 ```xml
-<target name="music" depends="build" description="Play music when build">
+<target name="music" 
+        depends="build" 
+        description="Play music when build">
     <echo>Playing music</echo>
     <sound>
         <success source="${music}/Success.wav"/>
