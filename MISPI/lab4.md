@@ -46,9 +46,9 @@ GC в Hotspot JVM:
 - ParallelGC
   - максимальный throughput
   - параллельная сборка молодого и старого поколений
-  
+
+Оранжевое — программа под паузой
 ![serial_parallel_gc.png](img/serial_parallel_gc.png)
-Оранжевое - программа под паузой
 
 - CMS (Copy Mark Sweep)
   - предсказуемость
@@ -56,8 +56,8 @@ GC в Hotspot JVM:
   - более низкие паузы по сравнению с Parallel и Serial
   - Sweep и Mark работают параллельно с приложением, но Sweep не перемещает объекты
   
-![cms_gc.png](img/cms_gc.png)
 Concurrent относится к олду - Mark и Sweep
+![cms_gc.png](img/cms_gc.png)
 
 
 - G1
