@@ -761,6 +761,122 @@ Swap:             0           0           0
 
 ![](img/htop_example.png)
 
+От себя добавлю: `netstat` - полезная утилита для работы с сетью. ([Видео](https://www.youtube.com/watch?v=bxFwpm4IobU))
+
+Некоторые полезные ключи:
+- `-ie`: = `ifconfig` - все те
+- `-r`: routing table
+- `-c`: continuous - вывод всех активных соединений во времени
+- `-p`: добавить колонку процесса, к которому привязано соединение
+- `-l`: показать соединения со стейтом LISTENING
+- `-a`: показать все сокеты
+    - `-t`: выбрать только соединения с протоколом tcp (можно комбинировать с `-a` и `-l`)
+    - `-u`: то же для upd (updt не имеет state кстати)
+Пример вывода `netstat -a`:
+
+```
+netstat -a
+Active Internet connections (including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)    
+tcp4       0      0  192.168.1.38.53781     webim.ru.https         ESTABLISHED
+tcp4       0      0  192.168.1.38.53780     253.34.228.35.bc.https ESTABLISHED -> скорее всего относится к браузеру (ждет https)
+tcp6       0      0  joeykes-imac.blackjack fe80::e25b:3d9f:.15755 ESTABLISHED
+tcp46      0      0  *.wbem-exp-https       *.*                    LISTEN -> 
+tcp4       0      0  localhost.6942         *.*                    LISTEN     
+tcp4       0      0  192.168.1.38.55880     51.103.5.159.https     CLOSE_WAIT 
+tcp4       0      0  192.168.1.38.53103     hbrt-or1-ext-vip.https CLOSE_WAIT
+udp46      0      0  *.mdns                 *.* 
+udp4       0      0  *.*                    *.*                               
+udp6       0      0  localhost.51323        localhost.51323  
+
+
+Active Multipath Internet connections
+Proto/ID  Flags      Local Address          Foreign Address        (state)    
+icm6       0      0  *.*                    *.*                               
+Active LOCAL (UNIX) domain sockets
+Address          Type   Recv-Q Send-Q            Inode             Conn             Refs          Nextref Addr
+41caefc55432b4bb stream      0      0                0 41caefc554328f3b                0                0 /var/run/mDNSResponder
+41caefc55432b32b stream      0      0                0 41caefc55432b19b                0                0
+41caefc554329003 stream      0      0                0 41caefc55432ab5b                0                0 /var/run/mDNSResponder
+41caefc554329e13 stream      0      0 41caefc529a7e98b                0                0                0 /var/folders/4k/j7hl1hg501l_czt5pf8qr6b40000gn/T/.com.hnc.Discord.9V8a7E/SS
+41caefc554329c83 stream      0      0 41caefc52525858b                0                0                0 /tmp/Sublime Text.4cff18d2bab96a93366319a9e0fa060d.d9672b715d018f64bb9a8e94257a7c57.sock
+41caefc517989c1b stream      0      0 41caefc52f1afb8b                0                0                0 /var/folders/4k/j7hl1hg501l_czt5pf8qr6b40000gn/T/.com.google.Chrome.cvQBXe/SingletonSocket
+41caefc51798b133 stream      0      0 41caefc51eb4168b                0                0                0 /private/var/run/.sim_diagnosticd_socket
+41caefc52841d003 dgram       0      0                0 41caefc51798ae13                0 41caefc52841cc1b
+41caefc52841cc1b dgram       0      0                0 41caefc51798ae13                0 41caefc52841e38b
+41caefc52841f32b dgram       0      0                0 41caefc52841ca8b 41caefc52841ca8b                0
+41caefc52841ca8b dgram       0      0                0 41caefc52841f32b 41caefc52841f32b                0
+41caefc52841e38b dgram       0      0                0 41caefc51798ae13                0 41caefc52841cf3b
+41caefc52841cf3b dgram       0      0                0 41caefc51798ae13                0 41caefc52841f4bb
+...
+
+Registered kernel control modules
+id       flags    pcbcount rcvbuf   sndbuf   name 
+       1        9        0   131072   131072 com.apple.flow-divert 
+       2        1        0    16384     2048 com.apple.nke.sockwall 
+       3        9        0   524288   524288 com.apple.content-filter 
+       4        1       13    65536    65536 com.apple.net.netagent 
+       5        9        8   524288   524288 com.apple.net.utun_control 
+       6        1        0    65536    65536 com.apple.net.ipsec_control 
+       7        0       60     8192     2048 com.apple.netsrc 
+       8       18        3     8192     2048 com.apple.network.statistics 
+       9        5        0     8192    32768 com.apple.network.tcp_ccdebug 
+       a        1        0     8192     2048 com.apple.network.advisory 
+       b        0        1     8192     8192 com.apple.fileutil.kext.stateful.ctl 
+       c        0        3     8192     2048 com.apple.fileutil.kext.stateless.ctl 
+...
+       
+Active kernel event sockets
+Proto Recv-Q Send-Q vendor  class subcla
+kevt       0      0      1      4      0
+kevt       0      0      1      1     11
+kevt       0      0      1      1      7
+kevt       0      0      1      6      1
+...
+
+
+Active kernel control sockets
+Proto Recv-Q Send-Q   unit     id name
+kctl       0      0      1      4 com.apple.net.netagent
+kctl       0      0      2      4 com.apple.net.netagent
+kctl       0      0      7      5 com.apple.net.utun_control
+kctl       0      0      8      5 com.apple.net.utun_control
+kctl       0      0      9      7 com.apple.netsrc
+kctl       0      0     10      7 com.apple.netsrc
+...
+
+```
+
+Пример `netstat -atp`:
+
+```
+alex@alex-kde:~$ netstat -atp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 localhost:5939          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 localhost:domain        0.0.0.0:*               LISTEN      -                   
+tcp        0      0 localhost:ipp           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 alex-kde:35728          ec2-35-167-253-19:https ESTABLISHED 2172/firefox        
+tcp        0      0 alex-kde:59044          149.154.167.50:https    ESTABLISHED 3002/telegram-deskt 
+tcp        1      0 alex-kde:41040          server-13-33-242-:https CLOSE_WAIT  2675/plasma-browser 
+tcp        0      0 alex-kde:38272          srv129-129-240-87:https ESTABLISHED 2172/firefox           
+tcp        0      0 alex-kde:54796          srv194-139-240-87:https TIME_WAIT   -                   
+tcp        0      0 alex-kde:39444          142.251.1.94:https      ESTABLISHED 2172/firefox        
+tcp        1      0 alex-kde:43376          srv67-190-240-87.:https CLOSE_WAIT  2675/plasma-browser 
+tcp        0      0 alex-kde:43988          ec2-34-214-1-68.u:https ESTABLISHED 2172/firefox         
+tcp        0      0 alex-kde:59084          149.154.167.50:https    ESTABLISHED 3002/telegram-deskt 
+tcp        0      0 alex-kde:54804          srv194-139-240-87:https ESTABLISHED 2172/firefox        
+tcp6       0      0 [::]:1716               [::]:*                  LISTEN      2082/kdeconnectd    
+tcp6       0      0 localhost:ipp           [::]:*                  LISTEN      -
+```
+
+Жизненный пример: посмотреть что там с SSH:
+![netstat_ssh_example.png](img/netstat_ssh_example.png)
+
+# TODO: добавить про [perf](https://www.youtube.com/watch?v=M6ldFtwWup0&list=PLx-WakpEO8zFQGRrB4xYAuWjHKqVWlwaD) что-нибудь
+
 ### `1:37:53`: Создание тестовой системы и нагрузчики
 
 - Утилита `dd`
