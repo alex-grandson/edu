@@ -180,7 +180,7 @@
 
 стр. 93
 
-Исходные коды `.c`, `.h` --> Объектные файлы `.o` --> Бинарные файлы
+Исходные коды `.c`, `.h` —> Объектные файлы `.o` —> Бинарные файлы
 
 Конфигурация определяется с помощью маркеров определения. 
 В них задаются флаги, которые нужно выдать линковщику, компилятору...
@@ -424,7 +424,7 @@ jar {
 
 [Почитать про Gradle](https://habr.com/ru/post/225189/)
 
-### `50^40` : Платформо-зависимые системы сборки (вне Java)
+### `50:40` : Платформо-зависимые системы сборки (вне Java)
 
 - GNU autotools (C/C++), Cmake (C/C++), premake2 (lua)
 
@@ -570,7 +570,7 @@ jar {
 
 preemption - вытеснение процесса с процессора (involuntary context swith - несвободное переключение контекста) - в общем случае это не есть хорошо, тк переключение контекста затратная операция
 
-### `57:10` - Виртуальная память
+### `57:10`: Виртуальная память
 
 стр. 155
 
@@ -583,31 +583,242 @@ preemption - вытеснение процесса с процессора (invo
 - **совместное использование библиотек** : VM позволяет сделать так, чтобы одна страничка памяти была подключена к разным процессам, вместо создания копии для каждого
 - **swapping** : процесс целиком уходит в область подкачки
 
+### `1:09:27`: File buffered IO (буферизированный ввод/вывод)
+
+стр. 156
+
+![file_buffered_io.png](img/file_buffered_io.png)
+
+1. IO record - сколько байт нужно прочитать
+2. Запрос к ядру (ссылка на запись с IO передается вместе с синхронным программным прерыванием) 
+3. Вызов функции ядра **read** (точка доступа внутри ядра)
+4. IO в ядре попадает в VFS (Virtual File System)
+5. Имя файла преобразуется в DNLC - Directory Name Lookup Cache - кэш, ускоряющий обработку имен файлов
+    - если директория содержит большое количество имен файлов, кэша не хватает —> система начинает тупить <—> ОС берет информацию с диска, а не с быстрой памяти
+    - для экономии ресурсов ОС будет пользоваться в первую очередь буферным кэшем
+6. Реализации модулей ядра физических файловых систем
+    - Tmpfs — временное файловое хранилище во многих Unix-подобных ОС. Предназначена для монтирования файловой системы, но размещается в ОЗУ вместо физического диска.
+7. К точке монтирования подключается устройство, далее работает драйвер
+    
+Полезная утилита `iostat`. Позволяет наблюдать:
+- r/s, w/s - количество чтений и записей
+- rkB/s, wkB/s - объем r/w данных
+- avgrq-sz - среднее время запросов
+- await, r_await, w_await - время ожидания
+- svctm - время обслуживания
+- %unil - загруженность диска
+
+![iostat_example](img/iostat_example.jpg)
+
+### `1:16:22`: Мониторинг ОС. Средства мониторинга 
+
+стр. 157
+
+[Демо. Применение диагностики с поиском проблемы в системе](https://www.youtube.com/watch?v=rwVLa9me7e4)
+
+Нагрузка на процессор (man mpstat):
+```
+CPU
+     Processor number. The keyword all indicates that statistics are calculated as averages among all processors.
+
+%usr
+     Show the percentage of CPU utilization that occurred while executing at the user level (application).
+
+%nice
+     Show the percentage of CPU utilization that occurred while executing at the user level with nice priority.
+
+%sys
+     Show the percentage of CPU utilization that occurred while executing at the system level (kernel). Note that this does not include time spent servicing hardware  and
+     software interrupts.
+
+%iowait
+     Show the percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request.
+
+%irq
+     Show the percentage of time spent by the CPU or CPUs to service hardware interrupts.
+
+%idle
+     Show the percentage of time that the CPU or CPUs were idle and the system did not have an outstanding disk I/O request.
+```
+Утилиты мониторинга Linux:
+
+![linux_perfomance_obervability_tools.png](img/linux_perfomance_obervability_tools.png)
+
+Swapping:
+
+![vmstat_example_1.png.png](img/vmstat_example_1.png)
+
+Большие чтение/запись (близкие к пику производительности диска) ->
+Последовательные чтение и запись:
+
+![vmstat_example_2.png](img/vmstat_example_2.png)
+
+Небольшое количество читаемых блоков + большой CPU WAit = Random IO скорее всего
+
+![vmstat_example_3.png](img/vmstat_example_3.png)
+
+### `1:34:33`: Системный анализ за 60 секунд
+
+#### uptime
+```
+alex-iMac:~ alex$ uptime
+ 0:56  up 3 days, 14:15, 3 users, load averages: 2.27 2.61 2.56
+ ```
+Система почти не нагружена. Когда количество задач близко к количеству потоков, это хорошо. Если же сильно больше - нужно что-то с этим делать.
+- `-p / --pretty` (нет на mac):
+```
+uptime -p
+up 6 hours, 46 minutes
+```
+
+#### dmesg | tail - системные ошибки
+```
+sudo dmesg | tail
+Password:
+
+IOHIDLibUserClient:0x100029ea7 setValid: true
+IOHIDLibUserClient:0x100029ea7 setStateForQueues: 0x0
+IOHIDLibUserClient:0x100029ea4 setStateForQueues: 0x0
+IOHIDLibUserClient:0x100029ea6 setValid: true
+IOHIDLibUserClient:0x100029ea6 setStateForQueues: 0x0
+```
+#### vmstat 1 - есть ли свободная память, paging, распределение CPU
+- нет на mac
+
+```
+procs -----------memory----------   ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff   cache    si   so    bi    bo   in   cs us sy id wa st
+ 0  0      0 4693176 398056 4714400    0    0   325   127  955 2439 17  8 72  3  0
+ 0  0      0 4689380 398056 4718312    0    0     0     0  795 2095  4  2 94  0  0
+ 0  0      0 4689268 398056 4718248    0    0     0     0  860 2658  6  3 92  0  0
+ 0  0      0 4691420 398056 4718012    0    0     0     0  723 1829  3  2 96  0  0
+ ...
+```
+#### mpstat -P ALL 1
+- нет на мак
+- `-P ALL` отвечает за вывод нагрузки по ядрам
+- `1` в конце отвечает за интервал между снятиями показаний
 
 
+![mpstat_example](img/mpstat_example.jpg)
+
+#### pidstat 1 - проверка наиболее “горячих” процессов
+
+#### iostat -xz 1 - характеристики ввода-вывода
+- `-x`: Display extended statistics
+- `-z`: Tell iostat to omit output for any devices for which there was no activity during the sample period.
+- `1`: раз в секунуду
+- если %util > 60 это плохо (не всегда правда для SSD)
+
+![iostat_xz_example](img/iostat_xz_example.jpg)
+
+На вторую секунду неактивные строчки уже не выводились.
 
 
+#### free -m - проверка исчерпания кэшей/буфферов
 
+Опции:
+```
+-b, --bytes
+      Display the amount of memory in bytes.
 
+-k, --kibi
+      Display the amount of memory in kibibytes.  This is the default.
 
+-m, --mebi
+      Display the amount of memory in mebibytes.
 
+-g, --gibi
+      Display the amount of memory in gibibytes.
 
+--tebi Display the amount of memory in tebibytes.
 
+...
 
+--mega Display the amount of memory in megabytes. Implies --si.
 
+--giga Display the amount of memory in gigabytes. Implies --si.
+```
 
+Пример вывода:
 
+```
+alex@alex-kde:~$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:          11863        2366        4489         625        5006        8559
+Swap:             0           0           0
+```
 
+#### sar -n DEV 1 - сетевая статистика по интерфейсам 
+- System Activity Reporter
 
+#### sar -n TCP/ETCP 1 - сетевая статистика по соединениям
 
+#### top - онлайн-мониторинг параметров - “швейцарский нож” для администратора
+![](img/top_example.png)
 
+Модифицированная версия (htop):
 
+![](img/htop_example.png)
 
+### `1:37:53`: Создание тестовой системы и нагрузчики
 
+- Утилита `dd`
 
+В корпоративных системах наблюдение реальных, критически важных для бизнеса систем часто запрещено из-за страха перед внесением искажений в нормальную работу системы средствами мониторинга, или перед наличием дефектов в средства. В таких случаях обычно создают отдельную тестовую систему, являющуюся полной копией реальной, и проводят измерения на ней.
 
+Для тестовой системы нужно иметь возможность создавать нагрузку, близкую по характеристикам к реальной пользовательской нагрузке. В тестовой системе также возможно использование интрузивных средств мониторинга.
 
+Нагрузку, аналогичную реальной, можно создать с помощью средства создания синтетической нагрузки или средства записи реальной нагрузки, позволяющего запомнить нагрузку на реальном устройстве и использовать эти данные для тестовой системы. При этом синтетическая нагрузка всегда будет отличаться от реальной, и в средствах создания такой нагрузки используется большое число параметров, позволяющих гибко её настроить.
 
+### `1:42:17`: Профилирование приложений
 
+- Неинтрузивных профилировщиков **не бывает**
 
+Профиоировщики нужны для анализа:
+- Времени исполнения методов
+- Создания объектов в памяти
+- Потоков / блокировок
 
+Два подхода:
+- Внедрение в код напрямую
+- Прерывания и дамп памяти с последующими сортировкой и анализом
+    - получаем стек вызовов с определенным периодом
+    - понимаем сколько примерно занимает исполнение разных методов
+    - погрешность в рамках периода есть (если период больше времени отработки функции, ее можно не заметить)
+
+### `1:50:24`: Trade-offs, алгоритмы, архитектура ПО
+
+- Учите алгоритмы и структуры данных
+
+### `1:52:20`: Рецепты повышения производительности
+
+![high_sys.png](img/high_sys.png)
+
+`1:59:18`
+
+![high_io.png](img/high_io.png)
+
+`2:02:12`
+
+Запустили программу, user = 0, sys = 0, idle -> 100.
+
+Обычно неэффективно используются блокировки
+
+Программа не может использовать ресурсы компьютера
+
+![high_idle.png](img/high_idle.png)
+
+`2:05:36`
+
+![high_user.png](img/high_user.png)
+
+3. spinloop
+4. кэш работает неэффективно. 2% промахов снижают производительность на 40%
+5. 3. valotile/atomic вместо lock
+6. Биндить плохо потому что программа будет заточена под конкретную систему
+    - Биндить хорошо потому что процессор будет обращаться только к своему кэшу, не ходя в далекую память (для сногопроцессорной системы. Архитектура Нума)
+    
+### `2:16:30`: Счетчики производительности CPU
+
+![cpu_perfomance_counters.png](img/cpu_perfomance_counters.png)
