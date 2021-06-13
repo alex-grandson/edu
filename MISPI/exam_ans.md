@@ -856,7 +856,7 @@ Apache Maven - одна из самых популярных систем сбо
 
 ![cycle.png](img/cycle.png)
 
-## 46. Maven: Структура проекта. GAV.
+## 46. Maven: Структура проекта. GAVNO.
 
 ![struct.png](img/struct.png)
 
