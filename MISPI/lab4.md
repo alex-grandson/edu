@@ -48,6 +48,7 @@ GC в Hotspot JVM:
   - параллельная сборка молодого и старого поколений
 
 Оранжевое — программа под паузой
+
 ![serial_parallel_gc.png](img/serial_parallel_gc.png)
 
 - CMS (Copy Mark Sweep)
@@ -57,6 +58,7 @@ GC в Hotspot JVM:
   - Sweep и Mark работают параллельно с приложением, но Sweep не перемещает объекты
   
 Concurrent относится к олду - Mark и Sweep
+
 ![cms_gc.png](img/cms_gc.png)
 
 

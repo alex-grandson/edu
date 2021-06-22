@@ -877,6 +877,9 @@ tcp6       0      0 localhost:ipp           [::]:*                  LISTEN      
 
 # TODO: добавить про [perf](https://www.youtube.com/watch?v=M6ldFtwWup0&list=PLx-WakpEO8zFQGRrB4xYAuWjHKqVWlwaD) что-нибудь
 
+[Хабр. Красивая книжечка. Введение в perf](https://habr.com/ru/company/first/blog/442738/)
+
+[Perf + flamegraph](https://habr.com/ru/company/selectel/blog/437808/)
 ### `1:37:53`: Создание тестовой системы и нагрузчики
 
 - Утилита `dd`
