@@ -17,6 +17,8 @@
 11. Отказоустойчивость системы
 12. Скорость работы программы (Пирамида памяти)
 
+![kinds_of_mistakes.png](img/kinds_of_mistakes.png)
+
 ![](img_rubej/3.png)
 ![](img_rubej/4.png)
 ![](img_rubej/5.png)
