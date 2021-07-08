@@ -2,6 +2,8 @@
 
 ### [Spring. Что нужно знать](Spring/README.md)
 ### [Модель OSI и стек протоколов TCP-IP](OSI/README.md)
+### [Haskell](Haskell/README.md)
+
 # Список предметов:
 
 ## 1 курс
