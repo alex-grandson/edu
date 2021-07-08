@@ -5,8 +5,8 @@
 # Список предметов:
 
 ## 1 course
-### [Programming](Programming/README.md)
+### [Программирование (Java)](Programming/README.md)
 
 ## 2 course
-### [MISPI](MISPI/README.md)
-### [Embedded Systems](ES/README.md)
+### [МиСПИ (ОПИ)](MISPI/README.md)
+### [Встроенные системы](ES/README.md)
