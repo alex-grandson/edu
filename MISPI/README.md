@@ -12,15 +12,15 @@
 
 ## Дополнительная литература
 
-### [Мифический человеко-месяц, или Как создаются программные системы | Фредерикс Брукс](books/The_Mythical_Man-Month.pdf)
+### [Мифический человеко-месяц, или Как создаются программные системы | Фредерикс Брукс](https://drive.google.com/file/d/13S2w8EZLYw5-4-OMenFG6VFGC9pNy3rF/view?usp=sharing)
 
-### [UML 2 и Унифицированный процесс. Практический объектно-ориентированный анализ и проектирование | Арлоу Джим, Нейштадт Айла](books/UML_2_unified_process.pdf)
+### [UML 2 и Унифицированный процесс. Практический объектно-ориентированный анализ и проектирование | Арлоу Джим, Нейштадт Айла](https://drive.google.com/file/d/10O9y04EP-xA2727GpyT74y8gZCdqRLwj/view?usp=sharing)
 
 Полезными для курса МиСПИ являются первые 5 глав (для 1 Лабораторной работы)
 
-### [Программная инженерия. Учебник | Орлов С. А.](books/Orlov_Programmnaya_injeneria.pdf)
+### [Программная инженерия. Учебник | Орлов С. А.](https://drive.google.com/file/d/1W2FLDgk33QRS3OLmXx_fQPiZEgp5gb_z/view?usp=sharing)
 
-### [GIT: The Ultimate Guide for Beginners | Garner Jameson](books/Garner_Jameson_-_GIT_The_Ultimate_Guide_for_Beginners_Learn_Git_Version_Control_2020.pdf)
+### [GIT: The Ultimate Guide for Beginners | Garner Jameson](https://drive.google.com/file/d/1Ytn4qTTeM1s76iuPuUdiTHhJyh8XVC8u/view?usp=sharing)
 
 Количество страниц: 57
 
