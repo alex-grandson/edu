@@ -1,7 +1,7 @@
 # Внеклассное чтение
 
 ### [Spring. Что нужно знать](Spring/README.md)
-### [Модель OSI и стек протоколов TCP-IP](OSI/README.md)
+### [Модель OSI и стек протоколов TCP-IP](NETWORKS/README.md)
 ### [Haskell](Haskell/README.md)
 ### [Базы данных](DB/README.md)
 
