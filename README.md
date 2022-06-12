@@ -17,3 +17,4 @@
 ## 3 курс
 ### [Операционные системы](OS/README.md)
 ### [Low level (by Zhirkov)](Low-level/README.md)
+### [РСХД](DSS/README.md)
